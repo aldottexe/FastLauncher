@@ -8,9 +8,11 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 public class drawerAdapter extends RecyclerView.Adapter<drawerAdapter.ViewHolder> {
 
-    private appInfo[] localData;
+    private ArrayList<appInfo> localData;
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private final ImageView icon;
@@ -29,11 +31,11 @@ public class drawerAdapter extends RecyclerView.Adapter<drawerAdapter.ViewHolder
         //MAKE ME RETURN AN INTENT OF THE APP CHOSEN... or at least the package name idk
         public void onClick(View view) {
             int pos = getAdapterPosition();
-            System.out.println("item clicked! : " + localData[pos].packageName);
+            System.out.println("item clicked! : " + localData.get(pos).packageName);
         }
     }
 
-    public drawerAdapter(appInfo[] data){
+    public drawerAdapter(ArrayList data){
         localData = data;
     }
 
@@ -45,11 +47,11 @@ public class drawerAdapter extends RecyclerView.Adapter<drawerAdapter.ViewHolder
 
     public void onBindViewHolder(ViewHolder holder, int pos) {
         ImageView imageView = holder.getIcon();
-        imageView.setImageDrawable(localData[pos].icon);
+        imageView.setImageDrawable(localData.get(pos).icon);
     }
 
     public int getItemCount() {
-        return localData.length;
+        return localData.size();
     }
 
 
