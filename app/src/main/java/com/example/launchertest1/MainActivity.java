@@ -1,51 +1,71 @@
 package com.example.launchertest1;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.ComponentName;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
+
+
+
+    public class drawerContract extends ActivityResultContract<Void, String>{
+
+        @Override
+        public Intent createIntent(@NonNull Context context, Void input) {
+            return new Intent(getApplicationContext(), AppsDrawer.class);
+        }
+
+        @Override
+        public String parseResult(int resultCode, @Nullable Intent intent) {
+            if (resultCode != Activity.RESULT_OK || intent == null) {
+                return null;
+            }
+            return intent.getStringExtra("packageName");
+        }
+
+    }
+
+
+    ActivityResultLauncher<Void> mStartForResult = registerForActivityResult(new drawerContract(),
+            new ActivityResultCallback<String>() {
+
+                //this method is called after the secondary activity is completed..
+                //this is where you process the returned data
+                @Override
+                public void onActivityResult(String resultPackage) {
+                    if (resultPackage!= null) {
+                        System.out.println("data received" + resultPackage);
+                        //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+                        Intent launchIntent = getPackageManager().getLaunchIntentForPackage(resultPackage);
+                        startActivity(launchIntent);
+                    }
+                }
+            });
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ImageView chromeIcon = (ImageView) findViewById(R.id.chromeButton);
-
-        //chromeIcon.setImageDrawable(getActivityIcon(this, "com.oneplus.deskclock", "com.oneplus.deskclock.DeskClock"));
-
-    }
-
-    public void onChromeButtonClick(View v) {
-        Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.android.chrome");
-        startActivity(launchIntent);
-    }
-
-    public void onMenuClick(View view){
-        Intent intent = new Intent(this, AppsDrawer.class);
-        startActivity(intent);
     }
 
 
-    public static Drawable getActivityIcon(Context context, String packageName, String activityName) {
-        PackageManager pm = context.getPackageManager();
-        Intent intent = new Intent();
-        intent.setComponent(new ComponentName(packageName, activityName));
-        System.out.println("this is the intent: " + intent);
-        System.out.println("this is the pm:" + pm);
-        ResolveInfo resolveInfo = pm.resolveActivity(intent, 0);
-        System.out.println(resolveInfo);
-        return resolveInfo.loadIcon(pm);
-    }
+    public void onMenuClick(View view) {
+        mStartForResult.launch(null);
 
+    }
 }
