@@ -1,5 +1,6 @@
 package com.example.launchertest1;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -19,82 +20,212 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class MainActivity extends AppCompatActivity {
 
-    public int threshHold = 200;
+    final int threshHold = 200;
+    int appChoice;
+    //the gesture detectors will choose an app to launch on release based on this layout
+    //0  1   |   4  5
+    //2  3   |   6  7
+    //---------------
+    //8  9   |   12 13
+    //10 11  |   14 15
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        final float[] refs = new float[2];
-        float refY;
 
         ConstraintLayout tlBox = findViewById(R.id.tl_box);
         ConstraintLayout trBox = findViewById(R.id.tr_box);
         ConstraintLayout blBox = findViewById(R.id.bl_box);
         ConstraintLayout brBox = findViewById(R.id.br_box);
 
+        ///////////////////////////SWIPE DETECTORS//////////////////////////////
 
+        //X0
+        //00
         tlBox.setOnTouchListener(new View.OnTouchListener() {
+            float[] refs = new float[2];
             public boolean onTouch(View view, MotionEvent motionEvent) {
-               //System.out.println(motionEvent.getAction());
-
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
-                    refs[0] = motionEvent.getX();
-                    refs[1] = motionEvent.getY();
-
-                }
-                else if(motionEvent.getAction() == MotionEvent.ACTION_MOVE){
-                    System.out.println("moving @ " + motionEvent.getX() + "," + motionEvent.getY());
-
-                    float deltaX = motionEvent.getX() - refs[0];
-                    float deltaY = motionEvent.getY() - refs[1];
-
-                    if(deltaX > threshHold / 1.4 && deltaY > threshHold / 1.4){
-                        trBox.setBackgroundColor(Color.parseColor("#EEEEEE"));
-                        blBox.setBackgroundColor(Color.parseColor("#EEEEEE"));
-                        brBox.setBackgroundColor(Color.parseColor("#e6f542"));
+                switch(motionEvent.getAction()) {
+                    case(MotionEvent.ACTION_DOWN):{
+                        refs[0] = motionEvent.getX();
+                        refs[1] = motionEvent.getY();
                     }
-                    else if(deltaX > threshHold){
-                        trBox.setBackgroundColor(Color.parseColor("#e6f542"));
-                        blBox.setBackgroundColor(Color.parseColor("#EEEEEE"));
-                        brBox.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    case(MotionEvent.ACTION_MOVE):{
+
+                        float deltaX = motionEvent.getX() - refs[0];
+                        float deltaY = motionEvent.getY() - refs[1];
+
+                        if (deltaX > threshHold / 1.4 && deltaY > threshHold / 1.4) {
+                            colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.gray, R.color.gray, R.color.tile1);
+                            appChoice = 3;
+                        } else if (deltaX > threshHold) {
+                            colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.tile1, R.color.gray, R.color.white);
+                            appChoice = 1;
+                        } else if (deltaY > threshHold) {
+                            colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.gray, R.color.tile1, R.color.white);
+                            appChoice = 2;
+                        } else {
+                            colorTiles(tlBox, trBox, blBox, brBox, R.color.tile1, R.color.gray, R.color.gray, R.color.white);
+                            appChoice = 0;
+                        }
                     }
-                    else if(deltaY > threshHold){
-                        trBox.setBackgroundColor(Color.parseColor("#EEEEEE"));
-                        blBox.setBackgroundColor(Color.parseColor("#e6f542"));
-                        brBox.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    case(MotionEvent.ACTION_UP):{
+                        colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.gray, R.color.gray, R.color.white);
+
                     }
-                    else{
-                        trBox.setBackgroundColor(Color.parseColor("#EEEEEE"));
-                        blBox.setBackgroundColor(Color.parseColor("#EEEEEE"));
-                        brBox.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    default:{
+                        colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.gray, R.color.gray, R.color.white);
                     }
                 }
-                else{
-                    trBox.setBackgroundColor(Color.parseColor("#EEEEEE"));
-                    blBox.setBackgroundColor(Color.parseColor("#EEEEEE"));
-                    brBox.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                return true;
+            }
+        });
+
+        //0X
+        //00
+        trBox.setOnTouchListener(new View.OnTouchListener() {
+            float[] refs = new float[2];
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch(motionEvent.getAction()) {
+                    case(MotionEvent.ACTION_DOWN):{
+                        refs[0] = motionEvent.getX();
+                        refs[1] = motionEvent.getY();
+                    }
+                    case(MotionEvent.ACTION_MOVE):{
+
+                        float deltaX = motionEvent.getX() - refs[0];
+                        float deltaY = motionEvent.getY() - refs[1];
+
+                        if (deltaX < threshHold / -1.4 && deltaY > threshHold / 1.4) {
+                            colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.gray, R.color.tile2, R.color.white);
+                            appChoice = 7;
+                        } else if (deltaX < -1 * threshHold) {
+                            colorTiles(tlBox, trBox, blBox, brBox, R.color.tile2, R.color.gray, R.color.gray, R.color.white);
+                            appChoice = 5;
+                        } else if (deltaY > threshHold) {
+                            colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.gray, R.color.gray, R.color.tile2);
+                            appChoice = 6;
+                        } else {
+                            colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.tile2, R.color.gray, R.color.white);
+                            appChoice = 4;
+                        }
+                    }
+                    case(MotionEvent.ACTION_UP):{
+                        colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.gray, R.color.gray, R.color.white);
+
+                    }
+                    default:{
+                        colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.gray, R.color.gray, R.color.white);
+                    }
+                }
+                return true;
+            }
+        });
+
+        //00
+        //X0
+        blBox.setOnTouchListener(new View.OnTouchListener() {
+            float[] refs = new float[2];
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch(motionEvent.getAction()) {
+                    case(MotionEvent.ACTION_DOWN):{
+                        refs[0] = motionEvent.getX();
+                        refs[1] = motionEvent.getY();
+                    }
+                    case(MotionEvent.ACTION_MOVE):{
+
+                        float deltaX = motionEvent.getX() - refs[0];
+                        float deltaY = motionEvent.getY() - refs[1];
+
+                        if (deltaX > threshHold / 1.4 && deltaY < threshHold / -1.4) {
+                            colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.tile3, R.color.gray, R.color.white);
+                            appChoice = 9;
+                        } else if (deltaX > threshHold) {
+                            colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.gray, R.color.gray, R.color.tile3);
+                            appChoice = 11;
+                        } else if (deltaY < -1 * threshHold) {
+                            colorTiles(tlBox, trBox, blBox, brBox, R.color.tile3, R.color.gray, R.color.gray, R.color.white);
+                            appChoice = 8;
+                        } else {
+                            colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.gray, R.color.tile3, R.color.white);
+                            appChoice = 10;
+                        }
+                    }
+                    case(MotionEvent.ACTION_UP):{
+                        colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.gray, R.color.gray, R.color.white);
+
+                    }
+                    default:{
+                        colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.gray, R.color.gray, R.color.white);
+                    }
                 }
                 return true;
             }
         });
 
 
+        //00
+        //0X
+        brBox.setOnTouchListener(new View.OnTouchListener() {
+            float[] refs = new float[2];
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch(motionEvent.getAction()) {
+                    case(MotionEvent.ACTION_DOWN):{
+                        refs[0] = motionEvent.getX();
+                        refs[1] = motionEvent.getY();
+                    }
+                    case(MotionEvent.ACTION_MOVE):{
 
+                        float deltaX = motionEvent.getX() - refs[0];
+                        float deltaY = motionEvent.getY() - refs[1];
 
+                        if (deltaX < threshHold / -1.4 && deltaY < threshHold / -1.4) {
+                            colorTiles(tlBox, trBox, blBox, brBox, R.color.tile4, R.color.gray, R.color.gray, R.color.white);
+                            appChoice = 9;
+                        } else if (deltaX < -1 * threshHold) {
+                            colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.gray, R.color.tile4, R.color.white);
+                            appChoice = 11;
+                        } else if (deltaY < -1 * threshHold) {
+                            colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.tile4, R.color.gray, R.color.white);
+                            appChoice = 8;
+                        } else {
+                            colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.gray, R.color.gray, R.color.tile4);
+                            appChoice = 10;
+                        }
+                    }
+                    case(MotionEvent.ACTION_UP):{
+                        colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.gray, R.color.gray, R.color.white);
+
+                    }
+                    default:{
+                        colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.gray, R.color.gray, R.color.white);
+                    }
+                }
+                return true;
+            }
+        });
 
     }
 
+    public void colorTiles(ConstraintLayout tlBox, ConstraintLayout trBox, ConstraintLayout blBox, ConstraintLayout brBox, int tlColor, int trColor, int blColor, int brColor){
+        tlBox.setBackgroundColor(tlColor);
+        trBox.setBackgroundColor(trColor);
+        blBox.setBackgroundColor(blColor);
+        brBox.setBackgroundColor(brColor);
+    }
+
+    public void launch(String packageName){
+        Intent launchIntent = getPackageManager().getLaunchIntentForPackage(packageName);
+        startActivity(launchIntent);
+    }
 
     public void onMenuClick(View view) {
         mStartForResult.launch(null);
 
     }
 
-    public void onScroll1(View view){
-        System.out.println("scrolling");
-    }
 
 
     ///////////////////////////////intent stuff////////////////////////////////////
@@ -127,9 +258,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onActivityResult(String resultPackage) {
                     if (resultPackage!= null) {
                         System.out.println("data received" + resultPackage);
-                        //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
-                        Intent launchIntent = getPackageManager().getLaunchIntentForPackage(resultPackage);
-                        startActivity(launchIntent);
+                        launch(resultPackage);
                     }
                 }
             });
