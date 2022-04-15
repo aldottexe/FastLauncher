@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -35,12 +36,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //hides title bar
+        getSupportActionBar().hide();
+
+        //get preference file (theres a default one included with each activity that can be used to save preferences)
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        //grab a string with the value "packageList", the empty string in the second parameter is the value if the key doesn't match anything.
+        String packageList = sharedPref.getString("packageList","");
+
+        //save Preferences
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("packageList", packageList);
+        editor.apply();
+
+
+        ///////////////////////////SWIPE DETECTORS//////////////////////////////
         ConstraintLayout tlBox = findViewById(R.id.tl_box);
         ConstraintLayout trBox = findViewById(R.id.tr_box);
         ConstraintLayout blBox = findViewById(R.id.bl_box);
         ConstraintLayout brBox = findViewById(R.id.br_box);
-
-        ///////////////////////////SWIPE DETECTORS//////////////////////////////
 
         //X0
         //00
@@ -51,9 +65,13 @@ public class MainActivity extends AppCompatActivity {
                     case(MotionEvent.ACTION_DOWN):{
                         refs[0] = motionEvent.getX();
                         refs[1] = motionEvent.getY();
+
+                        colorTiles(tlBox, trBox, blBox, brBox, R.color.tile1, R.color.gray, R.color.gray, R.color.white);
+                        appChoice = 0;
+                        return true;
                     }
                     case(MotionEvent.ACTION_MOVE):{
-
+                        System.out.println("move" + appChoice);
                         float deltaX = motionEvent.getX() - refs[0];
                         float deltaY = motionEvent.getY() - refs[1];
 
@@ -70,14 +88,12 @@ public class MainActivity extends AppCompatActivity {
                             colorTiles(tlBox, trBox, blBox, brBox, R.color.tile1, R.color.gray, R.color.gray, R.color.white);
                             appChoice = 0;
                         }
+                    return true;
                     }
                     case(MotionEvent.ACTION_UP):{
                         colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.gray, R.color.gray, R.color.white);
+                    }
 
-                    }
-                    default:{
-                        colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.gray, R.color.gray, R.color.white);
-                    }
                 }
                 return true;
             }
@@ -92,6 +108,10 @@ public class MainActivity extends AppCompatActivity {
                     case(MotionEvent.ACTION_DOWN):{
                         refs[0] = motionEvent.getX();
                         refs[1] = motionEvent.getY();
+
+                        colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.tile2, R.color.gray, R.color.white);
+                        appChoice = 4;
+                        return true;
                     }
                     case(MotionEvent.ACTION_MOVE):{
 
@@ -111,12 +131,9 @@ public class MainActivity extends AppCompatActivity {
                             colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.tile2, R.color.gray, R.color.white);
                             appChoice = 4;
                         }
+                        return true;
                     }
                     case(MotionEvent.ACTION_UP):{
-                        colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.gray, R.color.gray, R.color.white);
-
-                    }
-                    default:{
                         colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.gray, R.color.gray, R.color.white);
                     }
                 }
@@ -133,6 +150,10 @@ public class MainActivity extends AppCompatActivity {
                     case(MotionEvent.ACTION_DOWN):{
                         refs[0] = motionEvent.getX();
                         refs[1] = motionEvent.getY();
+
+                        colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.gray, R.color.tile3, R.color.white);
+                        appChoice = 10;
+                        return true;
                     }
                     case(MotionEvent.ACTION_MOVE):{
 
@@ -152,19 +173,17 @@ public class MainActivity extends AppCompatActivity {
                             colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.gray, R.color.tile3, R.color.white);
                             appChoice = 10;
                         }
+                        return true;
                     }
                     case(MotionEvent.ACTION_UP):{
                         colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.gray, R.color.gray, R.color.white);
 
                     }
-                    default:{
-                        colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.gray, R.color.gray, R.color.white);
-                    }
+
                 }
                 return true;
             }
         });
-
 
         //00
         //0X
@@ -175,6 +194,10 @@ public class MainActivity extends AppCompatActivity {
                     case(MotionEvent.ACTION_DOWN):{
                         refs[0] = motionEvent.getX();
                         refs[1] = motionEvent.getY();
+
+                        colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.gray, R.color.gray, R.color.tile4);
+                        appChoice = 10;
+                        return true;
                     }
                     case(MotionEvent.ACTION_MOVE):{
 
@@ -194,26 +217,23 @@ public class MainActivity extends AppCompatActivity {
                             colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.gray, R.color.gray, R.color.tile4);
                             appChoice = 10;
                         }
+                        return true;
                     }
                     case(MotionEvent.ACTION_UP):{
                         colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.gray, R.color.gray, R.color.white);
+                    }
 
-                    }
-                    default:{
-                        colorTiles(tlBox, trBox, blBox, brBox, R.color.white, R.color.gray, R.color.gray, R.color.white);
-                    }
                 }
                 return true;
             }
         });
-
     }
 
     public void colorTiles(ConstraintLayout tlBox, ConstraintLayout trBox, ConstraintLayout blBox, ConstraintLayout brBox, int tlColor, int trColor, int blColor, int brColor){
-        tlBox.setBackgroundColor(tlColor);
-        trBox.setBackgroundColor(trColor);
-        blBox.setBackgroundColor(blColor);
-        brBox.setBackgroundColor(brColor);
+        tlBox.setBackgroundColor(getResources().getColor(tlColor));
+        trBox.setBackgroundColor(getResources().getColor(trColor));
+        blBox.setBackgroundColor(getResources().getColor(blColor));
+        brBox.setBackgroundColor(getResources().getColor(brColor));
     }
 
     public void launch(String packageName){

@@ -7,10 +7,10 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="gray">#ECF8F8</color>
-    <color name="tile1">#E6F542</color>
-    <color name="tile2">#B2967D</color>
-    <color name="tile3">#E6BEAE</color>
-    <color name="tile4">#1E2019</color>
+    <color name="gray">#FFECF8F8</color>
+    <color name="tile1">#FDCA40</color>
+    <color name="tile2">#DF2935</color>
+    <color name="tile3">#3772FF</color>
+    <color name="tile4">#00B884</color>
 
 </resources>
