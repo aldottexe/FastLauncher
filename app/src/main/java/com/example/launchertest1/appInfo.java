@@ -5,4 +5,5 @@ import android.graphics.drawable.Drawable;
 public class appInfo {
     String packageName;
     Drawable icon;
+    String label;
 }

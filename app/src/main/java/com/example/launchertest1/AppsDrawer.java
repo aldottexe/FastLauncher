@@ -24,13 +24,14 @@ public class AppsDrawer extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        System.out.println("on Create started");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apps_drawer);
 
+        //hides title bar
+        getSupportActionBar().hide();
+
         // **** fill array with apps here
         PackageManager pm = getPackageManager();
-        System.out.println("package manager: " + pm);
 
         //Intent.ACTION_MAIN filters intents by those that start other apps
         Intent i = new Intent(Intent.ACTION_MAIN, null);
@@ -38,12 +39,11 @@ public class AppsDrawer extends AppCompatActivity {
 
         List<ResolveInfo> allApps = pm.queryIntentActivities(i, 0);
 
-        System.out.println("queried Intent Activities!! " + allApps.size());
-
         for(ResolveInfo ri:allApps) {
             System.out.println( "package name" + ri.activityInfo.packageName);
             appInfo app = new appInfo();
             app.packageName = ri.activityInfo.packageName;
+            app.label = (String) ri.loadLabel(pm);
             app.icon = ri.activityInfo.loadIcon(pm);
             data.add(app);
         }

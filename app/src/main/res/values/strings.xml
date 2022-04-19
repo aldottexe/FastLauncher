@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">LauncherTest1</string>
+    <string name="Category1">Messaging</string>
+    <string name="Category2">Social</string>
+    <string name="Category3">Internet</string>
+    <string name="Category4">School</string>
 </resources>
