@@ -57,6 +57,4 @@ public class AppsDrawer extends AppCompatActivity {
 
 
     }
-
-
 }

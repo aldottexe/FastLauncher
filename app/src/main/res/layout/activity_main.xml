@@ -3,9 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout"
+    android:fitsSystemWindows="false"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:padding="0dp">
 
 
 
@@ -19,14 +21,41 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        android:backgroundTint="@color/white"/>
 
+    <ImageView
+        android:id="@+id/bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <io.alterac.blurkit.BlurLayout
+        android:id="@+id/blurLayout"
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+        android:visibility="visible"
+
+        app:blk_cornerRadius="20dp"
+        app:blk_blurRadius="6"
+        app:blk_fps="0"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </io.alterac.blurkit.BlurLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/box_holder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:background="@drawable/rounded_rect"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,7 +66,7 @@
             android:id="@+id/tl_box"
             android:layout_width="150dp"
             android:layout_height="200dp"
-            android:background="@color/white"
+            android:background="@color/gray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -48,7 +77,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_message_solid" />
 
             <TextView
                 android:id="@+id/tl_label"
@@ -56,7 +86,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/Category1"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
+                android:textSize="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tl_icon" />
@@ -67,10 +98,10 @@
             android:id="@+id/tr_box"
             android:layout_width="150dp"
             android:layout_height="200dp"
+            android:background="@color/gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tl_box"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/gray">
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/tr_icon"
@@ -79,7 +110,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_compass_solid" />
 
             <TextView
                 android:id="@+id/tr_label"
@@ -87,7 +119,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/Category2"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
+                android:textSize="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tr_icon" />
@@ -99,10 +132,10 @@
             android:id="@+id/bl_box"
             android:layout_width="150dp"
             android:layout_height="200dp"
+            android:background="@color/gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tl_box"
-            android:background="@color/gray">
+            app:layout_constraintTop_toBottomOf="@+id/tl_box">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/br_icon"
@@ -111,7 +144,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_ethernet_solid" />
 
             <TextView
                 android:id="@+id/br_label"
@@ -119,7 +153,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/Category3"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
+                android:textSize="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/br_icon" />
@@ -131,11 +166,11 @@
             android:id="@+id/br_box"
             android:layout_width="150dp"
             android:layout_height="200dp"
+            android:background="@color/gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/bl_box"
-            app:layout_constraintTop_toBottomOf="@+id/tr_box"
-            android:background="@color/white">
+            app:layout_constraintTop_toBottomOf="@+id/tr_box">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/bl_icon"
@@ -145,7 +180,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_graduation_cap_solid" />
 
             <TextView
                 android:id="@+id/bl_label"
@@ -153,28 +189,32 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/Category4"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
+                android:textSize="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/bl_icon" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <Button
         android:id="@+id/editButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="@color/white"
+        android:insetLeft="15dp"
+        android:insetTop="9dp"
+        android:insetRight="20dp"
+        android:onClick="onEditClick"
         android:text="edit"
-        android:backgroundTint="@color/gray"
+        android:textSize="12dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:onClick="onEditClick"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
