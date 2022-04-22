@@ -14,3 +14,4 @@ The majority of the Java code I wrote is in [this](/app/src/main/java/com/exampl
 
 This was my first time seriously coding in the Android Environment, so it was a big undertaking, but I learned a ton. Plus I'm really glad to have an organized homescreen for once.
 
+![video](https://youtu.be/mqH7dv4xRhc)
