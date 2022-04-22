@@ -1,6 +1,8 @@
 # Fast Launcher
 ### An Android app by Alex Lutz
 
+
+
 This is my final project CIS-1051.
 I'm really bad at organizing my phone homescreen, so it usually takes me a good 10-30 seconds to open an app I'm looking for (which is unacceptable).
 I wanted to create an app that not only forced me to organize my phone, but also allowed me to launch apps faster than ever before.
@@ -14,4 +16,4 @@ The majority of the Java code I wrote is in [this](/app/src/main/java/com/exampl
 
 This was my first time seriously coding in the Android Environment, so it was a big undertaking, but I learned a ton. Plus I'm really glad to have an organized homescreen for once.
 
-![video](https://youtu.be/mqH7dv4xRhc)
+## [CLICK HERE FOR VIDEO DEMO](https://youtu.be/mqH7dv4xRhc)
